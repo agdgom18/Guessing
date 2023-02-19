@@ -2,26 +2,35 @@
 
 let secretNumber = Math.round(Math.random() * 10) + 1;
 console.log(secretNumber);
-let guessingNumber;
+// let guessingNumber = Number(document.querySelector('.number-input').value);
 let highNumber = 0;
-let guessMessage = document.querySelector('.guess-message');
+let score = 20;
+let message = document.querySelector('.guess-message');
 
-const displayGuessMessage = function (message) {
-  document.querySelector('.guess-message').textContent = message;
-};
 document.querySelector('.check').addEventListener('click', function () {
-  const guessingNumber = Number(document.querySelector('.number-input').value);
+  let guessingNumber = Number(document.querySelector('.number-input').value);
   console.log(guessingNumber);
+  let scoreMessage = (document.querySelector('.score').textContent = score);
+
   if (!guessingNumber) {
-    document.querySelector('.guess-message').textContent = 'Enter any number';
+    message.textContent = 'Enter a number';
+
+    // Player won
   } else if (guessingNumber === secretNumber) {
+    message.textContent = 'It is right';
     document.querySelector('.question').textContent = secretNumber;
-    document.querySelector('body').style.backgroundColor = '#fad0c4';
-    document.querySelector('body').style.width = '#50rem';
-    guessMessage.textContent = 'Congratulations';
-    if (score > highNumber) {
-      highNumber = score;
-      document.querySelector('.highscore').textContent = highNumber;
+    document.querySelector('.question').style.width = '50rem';
+
+    // Player was wrong
+  } else if (guessingNumber !== secretNumber) {
+    if (score > 0) {
+      guessingNumber > secretNumber
+        ? (message.textContent = 'Too much')
+        : (message.textContent = 'Too less');
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      message.textContent = 'Game Over';
     }
   }
 });
